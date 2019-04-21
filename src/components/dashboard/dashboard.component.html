@@ -25,10 +25,10 @@
         <td mat-cell *matCellDef="let item"> {{item.SizeText}} </td>
     </ng-container>
 
-    <ng-container matColumnDef="delete">
+    <ng-container matColumnDef="downloadFile">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let item">
-            <mat-icon class="delete" (click)="delete(item)">delete</mat-icon>
+            <mat-icon class="downloadFile" (click)="downloadFile(item)">cloud_download</mat-icon>
         </td>
     </ng-container>
 

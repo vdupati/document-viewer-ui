@@ -9,6 +9,8 @@ import { DialogOneInputComponent } from '../dialogoneinput/dialogoneinput.compon
 import { DialogOneInputData } from '../../models/dialogOneInputData';
 import { MatBottomSheet } from '@angular/material';
 import { FilesUploadComponent } from '../filesupload/filesupload.component';
+import { environment } from '../../environments/environment';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'dashboard',
@@ -16,9 +18,10 @@ import { FilesUploadComponent } from '../filesupload/filesupload.component';
     styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+    downloadFileUrl = environment.apiUrl + '/gDrive/download-file';
     breadCrumbItems: BreadCrumbItem[] = [];
     dataSource: MatTableDataSource<FileInfo>;
-    displayedColumns: string[] = ['icon', 'name', 'modifiedTime', 'size', 'delete'];
+    displayedColumns: string[] = ['icon', 'name', 'modifiedTime', 'size', 'downloadFile'];
     files: FileInfo[] = [];
 
     constructor(
@@ -69,18 +72,16 @@ export class DashboardComponent implements OnInit {
         });
     }
 
-    delete(file: FileInfo) {
-        const index = this.files.indexOf(file);
-        if (index > -1) {
-            this.files.splice(index, 1);
-            this.appContext.Repository.File.delete(file.Id);
-            // .then(() => {
-            //     this.zone.run(() => {
-            //         this.dataSource.data = this.files;
-            //         console.log('Delete successfully');
-            //     });
-            // });
-        }
+    downloadFile(file: FileInfo) {
+        this.appContext.Repository.File.downloadFile(file.Id).subscribe(
+            data => {
+                console.log(data);
+                saveAs(data, file.Name);
+            },
+            err => {
+                console.error(err);
+            }
+        );
     }
 
     ngOnInit(): void {
