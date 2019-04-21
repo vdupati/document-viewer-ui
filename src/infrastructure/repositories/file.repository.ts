@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class FileRepository {
-    private listFilesUrl = environment.apiUrl + '/gDrive/list-files';
+    private listFilesUrl = environment.apiUrl + '/gDrive/list-files/';
     private downloadFileUrl = environment.apiUrl + '/gDrive/download-file/';
     private uploadFileUrl = environment.apiUrl + '/gDrive/upload-file';
 
@@ -29,7 +29,7 @@ export class FileRepository {
 
     getFiles(folderId: string) {
         return this.http
-            .get<FileInfo[]>(this.listFilesUrl)
+            .get<FileInfo[]>(this.listFilesUrl + folderId)
             .toPromise()
             .then((res) => {
                 const files: FileInfo[] = [];

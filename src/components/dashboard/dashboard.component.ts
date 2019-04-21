@@ -75,7 +75,6 @@ export class DashboardComponent implements OnInit {
     downloadFile(file: FileInfo) {
         this.appContext.Repository.File.downloadFile(file.Id).subscribe(
             data => {
-                console.log(data);
                 saveAs(data, file.Name);
             },
             err => {
