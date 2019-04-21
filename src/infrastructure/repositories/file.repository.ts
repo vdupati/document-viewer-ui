@@ -11,15 +11,6 @@ export class FileRepository {
 
     constructor(private http: HttpClient) { }
 
-    uploadFile(parentId: string, folderName: string) {
-        return this.http
-            .get<FileInfo[]>(this.uploadFileUrl)
-            .toPromise()
-            .then((res) => {
-                console.log('file uploaded successfully');
-            });
-    }
-
     downloadFile(fileId: string) {
         return this.http.get(this.downloadFileUrl + fileId, {
             responseType: 'blob',
@@ -36,5 +27,25 @@ export class FileRepository {
                 res.forEach((file) => files.push(FileInfo.fromGoogleFile(file)));
                 return files;
             });
+    }
+
+    importFile(parentId: string, file: FileInfo, onError: any, onComplete: any, onProgress: any) {
+        const contentType = file.Blob.type || 'application/octet-stream';
+        const metadata = {
+            name: file.Blob.name,
+            mimeType: contentType,
+            parents: [parentId]
+        };
+
+        const formData = new FormData();
+        formData.append('files', file.Blob);
+        formData.append('metadata', JSON.stringify(metadata));
+
+        return this.http.post(
+            this.uploadFileUrl,
+            formData)
+            .toPromise()
+            .then((res) => onComplete(res))
+            .catch((res) => onError(res));
     }
 }

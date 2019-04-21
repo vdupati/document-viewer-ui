@@ -59,17 +59,17 @@ export class DashboardComponent implements OnInit {
             data
         });
 
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                this.appContext.Repository.File.uploadFile(
-                    this.appContext.Session.BreadCrumb.currentItem.Id,
-                    result)
-                    .then(() => {
-                        this.refresh(this.appContext.Session.BreadCrumb.currentItem.Id);
-                    });
-            }
+        // dialogRef.afterClosed().subscribe(result => {
+        //     if (result) {
+        //         this.appContext.Repository.File.uploadFile(
+        //             this.appContext.Session.BreadCrumb.currentItem.Id,
+        //             result)
+        //             .then(() => {
+        //                 this.refresh(this.appContext.Session.BreadCrumb.currentItem.Id);
+        //             });
+        //     }
 
-        });
+        // });
     }
 
     downloadFile(file: FileInfo) {

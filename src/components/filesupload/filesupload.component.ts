@@ -34,7 +34,6 @@ export class FilesUploadComponent implements OnInit {
         if (this.currentIndex <= this.files.length - 1) {
             return this.files[this.currentIndex];
         }
-
     }
 
     ngOnInit(): void {
@@ -51,19 +50,19 @@ export class FilesUploadComponent implements OnInit {
     }
 
     uploadCurrentFile() {
-        // this.currentFile.Progress = 10;
-        // this.appContext.Repository.File.importFile(
-        //     this.appContext.Session.BreadCrumb.currentItem.Id,
-        //     this.currentFile,
-        //     (res) => this.onImportError(res),
-        //     (res) => this.onImportComplete(res),
-        //     (res) => this.onImportProgress(res)
-        // );
+        this.currentFile.Progress = 10;
+        this.appContext.Repository.File.importFile(
+            this.appContext.Session.BreadCrumb.currentItem.Id,
+            this.currentFile,
+            (res) => this.onImportError(res),
+            (res) => this.onImportComplete(res),
+            (res) => this.onImportProgress(res)
+        );
     }
 
     onImportError(res) {
-        console.log(res);
-        this.errorMessage = res;
+        // console.log(res);
+        // this.errorMessage = res;
     }
 
     onImportComplete(res) {
